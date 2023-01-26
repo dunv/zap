@@ -27,6 +27,7 @@ import (
 )
 
 const (
+	TraceLevel = zapcore.TraceLevel
 	// DebugLevel logs are typically voluminous, and are usually disabled in
 	// production.
 	DebugLevel = zapcore.DebugLevel
@@ -145,8 +146,8 @@ func (lvl *AtomicLevel) UnmarshalText(text []byte) error {
 }
 
 // MarshalText marshals the AtomicLevel to a byte slice. It uses the same
-// text representation as the static zapcore.Levels ("debug", "info", "warn",
-// "error", "dpanic", "panic", and "fatal").
+// text representation as the static zapcore.Levels ("trace", "debug", "info",
+// "warn", "error", "dpanic", "panic", and "fatal").
 func (lvl AtomicLevel) MarshalText() (text []byte, err error) {
 	return lvl.Level().MarshalText()
 }

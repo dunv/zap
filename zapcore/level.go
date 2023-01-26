@@ -32,9 +32,10 @@ var errUnmarshalNilLevel = errors.New("can't unmarshal a nil *Level")
 type Level int8
 
 const (
+	TraceLevel Level = iota - 2
 	// DebugLevel logs are typically voluminous, and are usually disabled in
 	// production.
-	DebugLevel Level = iota - 1
+	DebugLevel
 	// InfoLevel is the default logging priority.
 	InfoLevel
 	// WarnLevel logs are more important than Info, but don't need individual
@@ -112,6 +113,8 @@ func LevelOf(enab LevelEnabler) Level {
 // String returns a lower-case ASCII representation of the log level.
 func (l Level) String() string {
 	switch l {
+	case TraceLevel:
+		return "trace"
 	case DebugLevel:
 		return "debug"
 	case InfoLevel:
@@ -136,6 +139,8 @@ func (l Level) CapitalString() string {
 	// Printing levels in all-caps is common enough that we should export this
 	// functionality.
 	switch l {
+	case TraceLevel:
+		return "TRACE"
 	case DebugLevel:
 		return "DEBUG"
 	case InfoLevel:
@@ -179,6 +184,8 @@ func (l *Level) UnmarshalText(text []byte) error {
 
 func (l *Level) unmarshalText(text []byte) bool {
 	switch string(text) {
+	case "trace", "TRACE":
+		*l = TraceLevel
 	case "debug", "DEBUG":
 		*l = DebugLevel
 	case "info", "INFO", "": // make the zero value useful

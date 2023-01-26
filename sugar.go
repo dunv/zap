@@ -122,6 +122,14 @@ func (s *SugaredLogger) Level() zapcore.Level {
 	return zapcore.LevelOf(s.base.core)
 }
 
+func (s *SugaredLogger) Log(lvl zapcore.Level, args ...interface{}) {
+	s.log(lvl, "", args, nil)
+}
+
+func (s *SugaredLogger) Trace(args ...interface{}) {
+	s.log(TraceLevel, "", args, nil)
+}
+
 // Debug uses fmt.Sprint to construct and log a message.
 func (s *SugaredLogger) Debug(args ...interface{}) {
 	s.log(DebugLevel, "", args, nil)
@@ -158,6 +166,14 @@ func (s *SugaredLogger) Fatal(args ...interface{}) {
 	s.log(FatalLevel, "", args, nil)
 }
 
+func (s *SugaredLogger) Logf(lvl zapcore.Level, template string, args ...interface{}) {
+	s.log(lvl, template, args, nil)
+}
+
+func (s *SugaredLogger) Tracef(template string, args ...interface{}) {
+	s.log(TraceLevel, template, args, nil)
+}
+
 // Debugf uses fmt.Sprintf to log a templated message.
 func (s *SugaredLogger) Debugf(template string, args ...interface{}) {
 	s.log(DebugLevel, template, args, nil)
@@ -192,6 +208,14 @@ func (s *SugaredLogger) Panicf(template string, args ...interface{}) {
 // Fatalf uses fmt.Sprintf to log a templated message, then calls os.Exit.
 func (s *SugaredLogger) Fatalf(template string, args ...interface{}) {
 	s.log(FatalLevel, template, args, nil)
+}
+
+func (s *SugaredLogger) Logw(lvl zapcore.Level, msg string, keysAndValues ...interface{}) {
+	s.log(lvl, msg, nil, keysAndValues)
+}
+
+func (s *SugaredLogger) Tracew(msg string, keysAndValues ...interface{}) {
+	s.log(TraceLevel, msg, nil, keysAndValues)
 }
 
 // Debugw logs a message with some additional context. The variadic key-value
@@ -239,6 +263,14 @@ func (s *SugaredLogger) Panicw(msg string, keysAndValues ...interface{}) {
 // variadic key-value pairs are treated as they are in With.
 func (s *SugaredLogger) Fatalw(msg string, keysAndValues ...interface{}) {
 	s.log(FatalLevel, msg, nil, keysAndValues)
+}
+
+func (s *SugaredLogger) Logln(lvl zapcore.Level, args ...interface{}) {
+	s.logln(lvl, args, nil)
+}
+
+func (s *SugaredLogger) Traceln(args ...interface{}) {
+	s.logln(InfoLevel, args, nil)
 }
 
 // Debugln uses fmt.Sprintln to construct and log a message.
