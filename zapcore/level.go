@@ -32,6 +32,9 @@ var errUnmarshalNilLevel = errors.New("can't unmarshal a nil *Level")
 type Level int8
 
 const (
+	// TraceLevel logs are typically voluminous, and are usually disabled in
+	// production. (ADDED by dunv)
+	TraceLevel Level = iota - 2
 	// DebugLevel logs are typically voluminous, and are usually disabled in
 	// production.
 	DebugLevel Level = iota - 1
